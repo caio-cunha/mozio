@@ -6,7 +6,7 @@ from provider.serializers import ProviderSerializer
 from rest_framework.pagination import LimitOffsetPagination
 from rest_framework import status
 
-class Provider(APIView, LimitOffsetPagination):
+class ProviderView(APIView, LimitOffsetPagination):
     """
         A class for CRUD provider
     """
@@ -42,8 +42,29 @@ class Provider(APIView, LimitOffsetPagination):
         provider_service = ProviderService()
         serializer = ProviderSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
-        providers = provider_service.create(serializer=serializer)
-        return Response(providers, status=status.HTTP_201_CREATED)
+        provider = provider_service.create(serializer=serializer)
+        return Response(provider, status=status.HTTP_201_CREATED)
+
+
+class ProviderViewDetail(APIView):
+    
+    def patch(self, request, id=None):
+        """
+        A view for update one provider
+
+        Args:
+            request - Provider request object.
+
+        Returns:
+            response - Provider updated.
+        """
+
+        provider_service = ProviderService()
+        serializer = ProviderSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        provider = provider_service.update(validated_data=serializer.validated_data, id=id)
+        return Response(ProviderSerializer(provider).data, status=status.HTTP_200_OK)
+
 
 
 
