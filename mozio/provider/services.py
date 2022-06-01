@@ -24,11 +24,11 @@ class ProviderService():
 
         Args:
 
-            serializer - serializer validated for save
+            serializer - serializer validated for save.
 
         Response:
 
-            data - serializer data
+            data - serializer data.
         """
         serializer.save()
 
@@ -40,12 +40,12 @@ class ProviderService():
 
         Args:
 
-            validated_data - serializer data validated
-            id - id of provider 
+            validated_data - serializer data validated.
+            id - id of provider. 
 
         Response:
 
-            provider - provider object
+            provider - provider object.
         """
         
         try:
@@ -69,5 +69,23 @@ class ProviderService():
         provider.save()
 
         return provider
+
+    def delete(self, id):
+        """
+        A service for delete provider.
+
+        Args:
+
+            id - id of provider. 
+        """
+        
+        try:
+            provider = Provider.objects.get(id=id)
+        except Provider.DoesNotExist as exp:
+            raise ProviderNotFound
+
+        provider.delete()
+
+
 
             
