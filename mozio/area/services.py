@@ -67,3 +67,18 @@ class AreaService():
         area.save()
 
         return area
+
+    def delete(self, id):
+        """
+        A service for delete area.
+
+        Args:
+
+            id - id of area. 
+        """
+        try:
+            area = Area.objects.get(id=id)
+        except Area.DoesNotExist as exp:
+            raise AreaNotFound
+
+        area.delete()

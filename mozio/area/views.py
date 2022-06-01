@@ -7,7 +7,6 @@ from area.services import AreaService
 from area.serializers import AreaSerializer
 from area.serializers import AreaPatchSerializer
 
-
 class AreaView(APIView, LimitOffsetPagination):
 
     def get(self, request):
@@ -63,3 +62,19 @@ class AreaViewDetail(APIView):
         serializer.is_valid(raise_exception=True)
         area = area_service.update(validated_data=serializer.validated_data, id=id)
         return Response(AreaPatchSerializer(area).data, status=status.HTTP_200_OK)
+
+    def delete(self, request, id=None):
+        """
+        A view for delete one area (polygon).
+
+        Args:
+            id - Id Provider.
+
+        Returns:
+            response - HTTP Status.
+        """
+
+        area_service = AreaService()
+        area_service.delete(id=id)
+        return Response("", status=status.HTTP_204_NO_CONTENT)
+
