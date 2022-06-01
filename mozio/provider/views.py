@@ -4,11 +4,11 @@ from provider.services import ProviderService
 from provider.serializers import ProviderSerializer
 from rest_framework.pagination import LimitOffsetPagination
 from rest_framework import status
+from rest_framework.permissions import IsAuthenticated
 
 class ProviderView(APIView, LimitOffsetPagination):
-    """
-        A class for CRUD provider
-    """
+
+    permission_classes = (IsAuthenticated,)  
 
     def get(self, request):
         """
@@ -46,6 +46,8 @@ class ProviderView(APIView, LimitOffsetPagination):
 
 
 class ProviderViewDetail(APIView):
+
+    permission_classes = (IsAuthenticated,)  
     
     def patch(self, request, id=None):
         """
