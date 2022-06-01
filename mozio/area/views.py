@@ -5,6 +5,8 @@ from rest_framework.response import Response
 from rest_framework import status
 from area.services import AreaService
 from area.serializers import AreaSerializer
+from area.serializers import AreaPatchSerializer
+
 
 class AreaView(APIView, LimitOffsetPagination):
 
@@ -43,4 +45,21 @@ class AreaView(APIView, LimitOffsetPagination):
 
 
 class AreaViewDetail(APIView):
-    pass
+    
+    def patch(self, request, id=None):
+        """
+        A view for update one area (polygon).
+
+        Args:
+            request - Area request object.
+            id - Id for area.
+
+        Returns:
+            response - Area updated.
+        """
+
+        area_service = AreaService()
+        serializer = AreaPatchSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        area = area_service.update(validated_data=serializer.validated_data, id=id)
+        return Response(AreaPatchSerializer(area).data, status=status.HTTP_200_OK)

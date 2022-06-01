@@ -9,3 +9,11 @@ class AreaSerializer(serializers.ModelSerializer):
     class Meta:
         model = Area
         fields = ('id', 'name', 'price', 'provider', 'geojson')
+
+class AreaPatchSerializer(serializers.ModelSerializer):
+
+    provider = serializers.PrimaryKeyRelatedField(queryset=Provider.objects.all(), write_only=True, required=False)
+
+    class Meta:
+        model = Area
+        fields = ('id', 'name', 'price', 'provider', 'geojson')
