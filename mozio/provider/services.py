@@ -1,3 +1,10 @@
+"""
+Bussines Logic
+
+Author: Caio Henrique 
+Email: caiocomputacao2014@gmail.com
+"""
+
 from provider.models import Provider
 
 class ProviderService():
@@ -9,3 +16,9 @@ class ProviderService():
         providers = Provider.objects.all()
 
         return providers
+
+    def create(self, serializer):
+        
+        serializer.save()
+
+        return serializer.data
