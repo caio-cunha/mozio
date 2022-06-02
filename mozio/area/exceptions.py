@@ -11,3 +11,9 @@ class AreaNotFound(APIException):
     default_detail = {
         'code': 1422, 'msg': 'server - Area not found. Choose one ID that exist!'}
     default_code = 6001
+
+class ProviderAreaNotFound(APIException):
+    status_code = 422
+    default_detail = {
+        'code': 1422, 'msg': 'server - Not exist the provider ID choose!'}
+    default_code = 6001

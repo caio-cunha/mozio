@@ -6,7 +6,7 @@ Email: caiocomputacao2014@gmail.com
 """
 
 from area.models import Area
-from area.exceptions import AreaNotFound
+from area.exceptions import AreaNotFound, ProviderAreaNotFound
 
 class AreaService():
 
@@ -82,3 +82,18 @@ class AreaService():
             raise AreaNotFound
 
         area.delete()
+
+    def filter_by_provider(self, provider_id):
+        """
+        A service filter areas by provider id.
+
+        Args:
+
+            id - id of provider. 
+        """
+        try:
+            areas = Area.objects.get(provider_id=provider_id)
+        except Area.DoesNotExist as exp:
+            raise ProviderAreaNotFound
+
+        return areas
