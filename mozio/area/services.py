@@ -6,7 +6,15 @@ Email: caiocomputacao2014@gmail.com
 """
 
 from area.models import Area
-from area.exceptions import AreaNotFound, ProviderAreaNotFound
+from area.serializers import AreaPolygonSerializer
+
+from area.exceptions import (
+    AreaNotFound,
+    ProviderAreaNotFound, 
+    LatLongAreaNotFound,
+    PolygonNotFound
+)
+from shapely.geometry import Polygon, Point
 
 class AreaService():
 
@@ -97,3 +105,34 @@ class AreaService():
             raise ProviderAreaNotFound
 
         return areas
+
+    def filter_by_coordinate(self, lat, long):
+        """
+        A service filter areas by coordinates.
+
+        Args:
+
+            lat - latitude choose by user.
+            long - longitude choose by user. 
+        """
+        if not lat and not long:
+            raise LatLongAreaNotFound
+
+        point = Point(float(lat), float(long))
+
+        areas = Area.objects.all()
+        areas_filter = []
+
+        for area in areas:
+            
+            list_geojson = eval(area.geojson)
+
+            poly = Polygon(list_geojson)
+
+            if poly.contains(point):
+                areas_filter.append(AreaPolygonSerializer(area).data)
+
+        if not areas_filter:
+            raise PolygonNotFound
+        
+        return areas_filter

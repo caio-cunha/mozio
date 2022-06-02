@@ -88,9 +88,26 @@ class AreaFilterView(APIView):
             request - Area request object.
 
         Returns:
-            response - Provider created.
+            response - Areas filtered.
         """
         provider_id = self.query_params.get('provider_id')
         area_service = AreaService()
         areas = area_service.filter_by_provider(provider_id)
         return Response(AreaSerializer(areas).data)
+
+    @api_view(['GET'])
+    def filter_by_cordinate(self):
+        """
+        A view for filter area (polygon) by coordinates.
+
+        Args:
+            request - Area request object.
+
+        Returns:
+            response - Areas filter by coordinates.
+        """
+        lat = self.query_params.get('lat', None)
+        long = self.query_params.get('long', None) 
+        area_service = AreaService()
+        areas = area_service.filter_by_coordinate(lat=lat, long=long)
+        return Response(areas)
