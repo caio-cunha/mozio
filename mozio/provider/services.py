@@ -6,7 +6,8 @@ Email: caiocomputacao2014@gmail.com
 """
 
 from provider.models import Provider
-from provider.exceptions import ProviderNotFound
+from provider.exceptions import ProviderNotFound, ProtectorErrorDelete
+from django.db.models import ProtectedError
 
 class ProviderService():
 
@@ -84,7 +85,10 @@ class ProviderService():
         except Provider.DoesNotExist as exp:
             raise ProviderNotFound
 
-        provider.delete()
+        try:
+            provider.delete()
+        except ProtectedError as exp:
+            raise ProtectorErrorDelete
 
 
 

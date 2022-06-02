@@ -67,7 +67,7 @@ class ProviderViewDetail(APIView):
         provider = provider_service.update(validated_data=serializer.validated_data, id=id)
         return Response(ProviderSerializer(provider).data, status=status.HTTP_200_OK)
 
-    def delete(self, id):
+    def delete(self, request, id=None):
         """
         A view for delete one provider.
 
@@ -79,6 +79,7 @@ class ProviderViewDetail(APIView):
         """
 
         provider_service = ProviderService()
+        print(id)
         provider_service.delete(id=id)
         return Response("", status=status.HTTP_204_NO_CONTENT)
 

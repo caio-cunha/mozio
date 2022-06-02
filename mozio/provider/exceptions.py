@@ -11,3 +11,9 @@ class ProviderNotFound(APIException):
     default_detail = {
         'code': 1422, 'msg': 'server - Provider not found. Choose one ID that exist!'}
     default_code = 6001
+
+class ProtectorErrorDelete(APIException):
+    status_code = 422
+    default_detail = {
+        'code': 1422, 'msg': 'server - This provider ID is allocated by one area (polygon)!'}
+    default_code = 6001

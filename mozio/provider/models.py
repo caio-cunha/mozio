@@ -6,21 +6,13 @@ LANGUAGE_CHOICES = [
     ('SPA', 'Spanish'),
     ('ENG', 'English'),
     ('CHI', 'Chinese'),
-    ('AR', 'Arabic'),
-    ('HIN', 'Hindi'),
-    ('JPN', 'Japanese'),
-    ('GER', 'German'),
-    ('FRA', 'French'),
 ]
 
 CURRENCY_CHOICES = [
     ('BRL', 'Real'),
     ('EUR', 'Euro'),
     ('JPY', 'Japanese Yen'),
-    ('CNY', 'Chinese Yuan'),
-    ('INR', 'Indian Rupee'),
     ('USD', 'US Dollar'),
-    ('GBP', 'Pound'),
 ]
 
 class Provider(TimeStampedModel):
