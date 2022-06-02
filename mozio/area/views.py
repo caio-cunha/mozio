@@ -1,4 +1,3 @@
-from django.shortcuts import render
 from rest_framework.views import APIView
 from rest_framework.pagination import LimitOffsetPagination
 from rest_framework.response import Response
@@ -6,6 +5,7 @@ from rest_framework import status
 from area.services import AreaService
 from area.serializers import AreaSerializer
 from area.serializers import AreaPatchSerializer
+from rest_framework.decorators import api_view
 
 class AreaView(APIView, LimitOffsetPagination):
 
@@ -42,7 +42,6 @@ class AreaView(APIView, LimitOffsetPagination):
         area = area_service.create(serializer=serializer)
         return Response(area, status=status.HTTP_201_CREATED)
 
-
 class AreaViewDetail(APIView):
     
     def patch(self, request, id=None):
@@ -78,3 +77,20 @@ class AreaViewDetail(APIView):
         area_service.delete(id=id)
         return Response("", status=status.HTTP_204_NO_CONTENT)
 
+class AreaFilterView(APIView):
+
+    @api_view(['GET'])
+    def filter_by_provider(self):
+        """
+        A view for filter area (polygon) by provider.
+
+        Args:
+            request - Area request object.
+
+        Returns:
+            response - Provider created.
+        """
+        provider_id = self.query_params.get('provider_id')
+        area_service = AreaService()
+        areas = area_service.filter_by_provider(provider_id)
+        return Response(AreaSerializer(areas).data)
