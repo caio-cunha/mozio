@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from area.models import Area
 from provider.models import Provider
+from provider.serializers import ProviderSerializer
 
 class AreaSerializer(serializers.ModelSerializer):
 
@@ -17,3 +18,11 @@ class AreaPatchSerializer(serializers.ModelSerializer):
     class Meta:
         model = Area
         fields = ('id', 'name', 'price', 'provider', 'geojson')
+
+class AreaPolygonSerializer(serializers.ModelSerializer):
+
+    provider = ProviderSerializer()
+
+    class Meta:
+        model = Area
+        fields = ('name', 'price', 'provider','geojson')

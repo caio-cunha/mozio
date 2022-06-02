@@ -17,3 +17,15 @@ class ProviderAreaNotFound(APIException):
     default_detail = {
         'code': 1422, 'msg': 'server - Not exist the provider ID choose!'}
     default_code = 6001
+
+class LatLongAreaNotFound(APIException):
+    status_code = 422
+    default_detail = {
+        'code': 1422, 'msg': 'server - Choose one lat(latitude) and long(longitude)!'}
+    default_code = 6001
+
+class PolygonNotFound(APIException):
+    status_code = 422
+    default_detail = {
+        'code': 1422, 'msg': 'server -  Not Found one polygon! Choose other lat(latitude) and long(longitude)!'}
+    default_code = 6001
