@@ -12,7 +12,8 @@ from area.exceptions import (
     AreaNotFound,
     ProviderAreaNotFound, 
     LatLongAreaNotFound,
-    PolygonNotFound
+    PolygonNotFound,
+    QueryParamsWrong
 )
 from shapely.geometry import Polygon, Point
 
@@ -115,22 +116,32 @@ class AreaService():
             lat - latitude choose by user.
             long - longitude choose by user. 
         """
-        if not lat and not long:
+        if not lat or not long:
             raise LatLongAreaNotFound
 
-        point = Point(float(lat), float(long))
+        try:
+            point = Point(float(lat), float(long))
+        except ValueError:
+            raise QueryParamsWrong
 
         areas = Area.objects.all()
+        
         areas_filter = []
+        list_geojson = {}
 
         for area in areas:
-            
-            list_geojson = eval(area.geojson)
 
-            poly = Polygon(list_geojson)
+            try:
+                list_geojson = eval(area.geojson)
+            except Exception as exp:
+                pass
 
-            if poly.contains(point):
-                areas_filter.append(AreaPolygonSerializer(area).data)
+            if len(list_geojson) > 2:
+
+                poly = Polygon(list_geojson)
+
+                if poly.contains(point):
+                    areas_filter.append(AreaPolygonSerializer(area).data)
 
         if not areas_filter:
             raise PolygonNotFound
