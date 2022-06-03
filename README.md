@@ -16,7 +16,7 @@ Functionality API:
 
 ### Provider
 
-> Get providers saved in the database
+> Get providers in the database
 
 ```plaintext
 GET /apis/provider
@@ -66,7 +66,7 @@ curl -X DELETE "http://localhost:8001/apis/provider/1" -H  "accept: application/
 
 ### Area
 
-> Get areas saved in the database
+> Get areas in the database
 
 ```plaintext
 GET /apis/area
@@ -78,7 +78,7 @@ Request example:
 curl -X GET "http://localhost:8001/apis/area" -H  "accept: application/json" -H  "Authorization: Token KeyToken"
 ```
 
-> Save area in the database
+> **Save area in the database**
 
 ```plaintext
 POST /apis/area
@@ -89,6 +89,8 @@ Request example:
 ```shell
 curl -X POST "http://localhost:8001/apis/area" -H  "accept: application/json" -H  "Authorization: Token 01869aae3dff9217a13007ce6fe0d222c27fb860" -H  "Content-Type: application/json" -d {data}
 ```
+ **_NOTE:_** Template for to fill geojson field "[(0,0),(0,5),(5,5),...,(n,m)]" ...
+ Example: "[(0,0),(0,5),(5,5),(5,0)]" 
 
 > Update area in the database
 
@@ -138,6 +140,33 @@ Request example:
 curl -X GET "http://localhost:8001/apis/area/filter/coordinate?lat=0.1&long=1" -H  "accept: application/json" -H  "Authorization: Token 01869aae3dff9217a13007ce6fe0d222c27fb860" -H 
 ```
 
+## Access to the Admin Panel of the application:
+
+For easly the test of application:
+
+```
+https://test-mozio.herokuapp.com/admin
+```
+
 ## Deploy Information
 
+DNS for application hosted in Heroku:
+
+```
+https://test-mozio.herokuapp.com
+```
+
 ## Docs Information
+
+For access the swagger documentation:
+
+```
+https://test-mozio.herokuapp.com/docs
+```
+
+## Tests
+
+The tests were run with the command:
+```
+Heroku run python3 manage.py test
+```
