@@ -7,4 +7,3 @@ urlpatterns = [
     path('provider/<int:id>', ProviderViewDetail.as_view(), name='provider_detail')
 ]
 
-urlpatterns = format_suffix_patterns(urlpatterns)

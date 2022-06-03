@@ -5,6 +5,7 @@ from provider.serializers import ProviderSerializer
 from rest_framework.pagination import LimitOffsetPagination
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
+from drf_yasg.utils import swagger_auto_schema
 
 class ProviderView(APIView, LimitOffsetPagination):
 
@@ -14,11 +15,27 @@ class ProviderView(APIView, LimitOffsetPagination):
         """
         A view for get all providers.
 
-        Args:
-            request - Provider request object.
+        REQUEST_SERIALIZER \n
+            {
 
-        Returns:
-            response - All providers.
+            }
+
+        RESPONSE_SERIALIZER \n
+            {
+                'count': 'count',
+                'next': 'next',
+                'previous': 'previous',
+                'results': [
+                    {
+                        'id': 'id',
+                        'name': 'name',
+                        'email': 'email',
+                        'phone': 'phone',
+                        'language': 'language',
+                        'currency','currency'
+                    }
+                ]
+            }
         """
         
         provider_service = ProviderService()
@@ -26,16 +43,31 @@ class ProviderView(APIView, LimitOffsetPagination):
         results = self.paginate_queryset(providers, request, view=self)
         serializer = ProviderSerializer(results, many=True)
         return self.get_paginated_response(serializer.data)
-
+    
+    @swagger_auto_schema(
+        request_body=ProviderSerializer)
     def post(self, request):
         """
         A view for create one provider.
 
-        Args:
-            request - Provider request object.
+        REQUEST_SERIALIZER \n
+            {
+                'name': 'name',
+                'email': 'email',
+                'phone': 'phone',
+                'language': 'language',
+                'currency','currency'
+            }
 
-        Returns:
-            response - Provider created.
+        RESPONSE_SERIALIZER \n
+            {
+                'id': 'id',
+                'name': 'name',
+                'email': 'email',
+                'phone': 'phone',
+                'language': 'language',
+                'currency','currency'
+            }
         """
 
         provider_service = ProviderService()
@@ -49,16 +81,30 @@ class ProviderViewDetail(APIView):
 
     permission_classes = (IsAuthenticated,)  
     
+    @swagger_auto_schema(
+        request_body=ProviderSerializer)
     def patch(self, request, id=None):
         """
         A view for update one provider.
 
-        Args:
-            request - Provider request object.
-            id - Id for provider.
+        REQUEST_SERIALIZER \n
+            {
+                'name': 'name',
+                'email': 'email',
+                'phone': 'phone',
+                'language': 'language',
+                'currency','currency'
+            }
 
-        Returns:
-            response - Provider updated.
+        RESPONSE_SERIALIZER \n
+            {
+                'id': 'id',
+                'name': 'name',
+                'email': 'email',
+                'phone': 'phone',
+                'language': 'language',
+                'currency','currency'
+            }
         """
 
         provider_service = ProviderService()
@@ -71,11 +117,15 @@ class ProviderViewDetail(APIView):
         """
         A view for delete one provider.
 
-        Args:
-            id - Id Provider.
+        REQUEST_SERIALIZER \n
+            {
+            
+            }
 
-        Returns:
-            response - HTTP Status.
+        RESPONSE_SERIALIZER \n
+            {
+                
+            }
         """
 
         provider_service = ProviderService()
