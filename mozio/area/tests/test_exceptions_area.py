@@ -348,7 +348,7 @@ class AreaTest(TestCase):
     def test_not_found_filter_area_by_provider(self, decode_user_from_token):
         """
         GET /apis/area/filter/provider:
-        422 Not Found ERROR - Exception Test
+        422 Bad Request ERROR - Exception Test
         """
 
         # -------------------------------------------
@@ -376,7 +376,7 @@ class AreaTest(TestCase):
     def test_not_found_filter_area_by_provider(self, decode_user_from_token):
         """
         GET /apis/area/filter/provider:
-        422 Not Found ERROR - Exception Test
+        422 Bad Request ERROR - Exception Test
         """
 
         # -------------------------------------------
@@ -391,6 +391,118 @@ class AreaTest(TestCase):
 
         # -------------------------------------------
         # Simulate a http call to the /apis/area/filter/provider?provider_id={} endpoint
+        response = self.client.get(
+            request_url,
+            **request_header
+        )
+
+        # -------------------------------------------
+        # Evaluates the status code response
+        AssertThat(response.status_code).IsEqualTo(422)
+
+    @patch.object(IsAuthenticated, 'has_permission', return_value = True)
+    def test_not_found_filter_area_by_coordinate(self, decode_user_from_token):
+        """
+        GET /apis/area/filter/coordinate:
+        422 Bad Request ERROR - Exception Test for Lat and Long not filled
+        """
+
+        # -------------------------------------------
+        # Create the request url
+        request_url = f"/apis/area/filter/coordinate?lat=&long="
+
+        # -------------------------------------------
+        # Create the request header
+        request_header = {
+            "HTTP_AUTHORIZATION": "access_token"
+        }
+
+        # -------------------------------------------
+        # Simulate a http call to the /apis/area/filter/coordinate?lat={}&long={} endpoint
+        response = self.client.get(
+            request_url,
+            **request_header
+        )
+
+        # -------------------------------------------
+        # Evaluates the status code response
+        AssertThat(response.status_code).IsEqualTo(422)
+    
+    @patch.object(IsAuthenticated, 'has_permission', return_value = True)
+    def test_lat_and_long_wrong_filter_area_by_coordinate(self, decode_user_from_token):
+        """
+        GET /apis/area/filter/coordinate:
+        422 Bad Request ERROR - Exception Test for Lat and Long not filled
+        """
+
+        # -------------------------------------------
+        # Create the request url
+        request_url = f"/apis/area/filter/coordinate?latdas={0.1}&longdasd={1}"
+
+        # -------------------------------------------
+        # Create the request header
+        request_header = {
+            "HTTP_AUTHORIZATION": "access_token"
+        }
+
+        # -------------------------------------------
+        # Simulate a http call to the /apis/area/filter/coordinate?lat={}&long={} endpoint
+        response = self.client.get(
+            request_url,
+            **request_header
+        )
+
+        # -------------------------------------------
+        # Evaluates the status code response
+        AssertThat(response.status_code).IsEqualTo(422)
+
+    @patch.object(IsAuthenticated, 'has_permission', return_value = True)
+    def test_lat_and_long_with_data_wrong_filter_area_by_coordinate(self, decode_user_from_token):
+        """
+        GET /apis/area/filter/coordinate:
+        422 Bad Request ERROR - Exception Test for wrong values for Lat and Long
+        """
+
+        # -------------------------------------------
+        # Create the request url
+        request_url = f"/apis/area/filter/coordinate?lat=@&long={1}"
+
+        # -------------------------------------------
+        # Create the request header
+        request_header = {
+            "HTTP_AUTHORIZATION": "access_token"
+        }
+
+        # -------------------------------------------
+        # Simulate a http call to the /apis/area/filter/coordinate?lat={}&long={} endpoint
+        response = self.client.get(
+            request_url,
+            **request_header
+        )
+
+        # -------------------------------------------
+        # Evaluates the status code response
+        AssertThat(response.status_code).IsEqualTo(422)
+
+    @patch.object(IsAuthenticated, 'has_permission', return_value = True)
+    def test_lat_and_long_with_data_wrong_filter_area_by_coordinate(self, decode_user_from_token):
+        """
+        GET /apis/area/filter/coordinate:
+        422 Bad Request ERROR - Exception Test for wrong values for Lat and Long
+        """
+
+        # -------------------------------------------
+        # Create the request url
+        request_url = f"/apis/area/filter/coordinate?lat=@&long={1}"
+
+        # -------------------------------------------
+        # Create the request header
+        request_header = {
+            "HTTP_AUTHORIZATION": "access_token"
+        }
+
+        # -------------------------------------------
+        # Simulate a http call to the /apis/area/filter/coordinate?lat={}&long={} endpoint
         response = self.client.get(
             request_url,
             **request_header
