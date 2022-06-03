@@ -5,7 +5,7 @@ from provider.serializers import ProviderSerializer
 
 class AreaSerializer(serializers.ModelSerializer):
 
-    provider = serializers.PrimaryKeyRelatedField(queryset=Provider.objects.all(), write_only=True, required=False)
+    provider = serializers.PrimaryKeyRelatedField(queryset=Provider.objects.all(), write_only=False, required=False)
 
     class Meta:
         model = Area
@@ -14,7 +14,7 @@ class AreaSerializer(serializers.ModelSerializer):
 
 class AreaPatchSerializer(serializers.ModelSerializer):
 
-    provider = serializers.PrimaryKeyRelatedField(queryset=Provider.objects.all(), write_only=True, required=False)
+    provider = serializers.PrimaryKeyRelatedField(queryset=Provider.objects.all(), write_only=False, required=False)
 
     class Meta:
         model = Area

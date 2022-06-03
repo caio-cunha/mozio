@@ -202,6 +202,7 @@ class AreaTest(TestCase):
             "id": self.area.id,
             "name": "New Name",
             "price": 2000.0,
+            "provider": self.provider.id,
             "geojson": self.area.geojson,
         }
 

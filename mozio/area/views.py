@@ -7,20 +7,38 @@ from area.services import AreaService
 from area.serializers import AreaSerializer
 from area.serializers import AreaPatchSerializer
 from rest_framework.decorators import api_view
+from drf_yasg.utils import swagger_auto_schema
 
 class AreaView(APIView, LimitOffsetPagination):
 
     permission_classes = (IsAuthenticated,)  
 
+    @swagger_auto_schema(
+        tags=["Area"],)
     def get(self, request):
         """
         A view for get all area (polygon).
 
-        Args:
-            request - Area request object.
+        REQUEST_SERIALIZER \n
+            {
 
-        Returns:
-            response - All areas.
+            }
+
+        RESPONSE_SERIALIZER \n
+            {
+                'count': 'count',
+                'next': 'next',
+                'previous': 'previous',
+                'results': [
+                    {
+                        'id': 'id',
+                        'name': 'name',
+                        'price': 'price',
+                        'provider': 'provider',
+                        'geojson': 'geojson'
+                    }
+                ]
+            }
         """
         
         area_service = AreaService()
@@ -29,15 +47,28 @@ class AreaView(APIView, LimitOffsetPagination):
         serializer = AreaSerializer(results, many=True)
         return self.get_paginated_response(serializer.data)
 
+    @swagger_auto_schema(
+        tags=["Area"],request_body=AreaSerializer)
     def post(self, request):
         """
         A view for create area (polygon).
 
-        Args:
-            request - Area request object.
+        REQUEST_SERIALIZER \n
+            {
+                'name': 'name',
+                'price': 'price',
+                'geojson': 'geojson',
+                'provider': 'provider'
+            }
 
-        Returns:
-            response - Provider created.
+        RESPONSE_SERIALIZER \n
+            {
+                'id': 'id',
+                'name': 'name',
+                'price': 'price',
+                'provider': 'provider'
+                'geojson': 'geojson'
+            }
         """
         area_service = AreaService()
         serializer = AreaSerializer(data=request.data)
@@ -49,16 +80,28 @@ class AreaViewDetail(APIView):
 
     permission_classes = (IsAuthenticated,)  
     
+    @swagger_auto_schema(
+        tags=["Area"],request_body=AreaPatchSerializer)
     def patch(self, request, id=None):
         """
         A view for update one area (polygon).
 
-        Args:
-            request - Area request object.
-            id - Id for area.
+        REQUEST_SERIALIZER \n
+            {
+                'name': 'name',
+                'price': 'price',
+                'geojson': 'geojson',
+                'provider': 'provider'
+            }
 
-        Returns:
-            response - Area updated.
+        RESPONSE_SERIALIZER \n
+            {
+                'id': 'id',
+                'name': 'name',
+                'price': 'price',
+                'provider': 'provider'
+                'geojson': 'geojson'
+            }
         """
 
         area_service = AreaService()
@@ -67,15 +110,21 @@ class AreaViewDetail(APIView):
         area = area_service.update(validated_data=serializer.validated_data, id=id)
         return Response(AreaPatchSerializer(area).data, status=status.HTTP_200_OK)
 
+    @swagger_auto_schema(
+        tags=["Area"],)
     def delete(self, request, id=None):
         """
         A view for delete one area (polygon).
 
-        Args:
-            id - Id Provider.
+        REQUEST_SERIALIZER \n
+            {
+            
+            }
 
-        Returns:
-            response - HTTP Status.
+        RESPONSE_SERIALIZER \n
+            {
+                
+            }
         """
 
         area_service = AreaService()
@@ -86,16 +135,25 @@ class AreaFilterView(APIView):
 
     permission_classes = (IsAuthenticated,)  
 
-    @api_view(['GET'])
     def filter_by_provider(self):
         """
         A view for filter area (polygon) by provider.
 
-        Args:
-            request - Area request object.
+        REQUEST_SERIALIZER \n
+            {
 
-        Returns:
-            response - Areas filtered.
+            }
+
+        RESPONSE_SERIALIZER \n
+            [
+                {                   
+                    'id': 'id',
+                    'name': 'name',
+                    'price': 'price',
+                    'provider': 'provider',
+                    'geojson': 'geojson'
+                }
+            ]
         """
         provider_id = self.query_params.get('provider_id', None)
         area_service = AreaService()
@@ -107,11 +165,19 @@ class AreaFilterView(APIView):
         """
         A view for filter area (polygon) by coordinates.
 
-        Args:
-            request - Area request object.
+        REQUEST_SERIALIZER \n
+        {}
 
-        Returns:
-            response - Areas filter by coordinates.
+        RESPONSE_SERIALIZER \n
+            [
+                {                   
+                    'id': 'id',
+                    'name': 'name',
+                    'price': 'price',
+                    'provider': 'provider',
+                    'geojson': 'geojson'
+                }
+            ]
         """
         lat = self.query_params.get('lat', None)
         long = self.query_params.get('long', None) 
