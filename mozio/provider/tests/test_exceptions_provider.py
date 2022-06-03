@@ -129,7 +129,7 @@ class ProviderTest(TestCase):
     def test_not_found_validation_create_provider(self, decode_user_from_token):
         """
         POST /apis/providers
-        404 Not Found ERROR - Validation Exception Test
+        400 BAD REQUEST ERROR - Validation Exception Test
         """
 
         # -------------------------------------------

@@ -6,14 +6,15 @@ Email: caiocomputacao2014@gmail.com
 """
 
 from area.models import Area
-from area.serializers import AreaPolygonSerializer
+from area.serializers import AreaSerializer
 
 from area.exceptions import (
     AreaNotFound,
     ProviderAreaNotFound, 
     LatLongAreaNotFound,
     PolygonNotFound,
-    QueryParamsWrong
+    QueryParamsWrong,
+    QueryParamsProviderIdWrong
 )
 from shapely.geometry import Polygon, Point
 
@@ -100,11 +101,17 @@ class AreaService():
 
             id - id of provider. 
         """
+        if not provider_id:
+            raise QueryParamsProviderIdWrong
+
         try:
-            areas = Area.objects.get(provider_id=provider_id)
+            areas = Area.objects.filter(provider=provider_id)
         except Area.DoesNotExist as exp:
             raise ProviderAreaNotFound
 
+        if not areas:
+            raise ProviderAreaNotFound
+        
         return areas
 
     def filter_by_coordinate(self, lat, long):
@@ -141,7 +148,7 @@ class AreaService():
                 poly = Polygon(list_geojson)
 
                 if poly.contains(point):
-                    areas_filter.append(AreaPolygonSerializer(area).data)
+                    areas_filter.append(AreaSerializer(area).data)
 
         if not areas_filter:
             raise PolygonNotFound
