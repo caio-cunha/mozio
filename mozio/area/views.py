@@ -14,7 +14,7 @@ class AreaView(APIView, LimitOffsetPagination):
     permission_classes = (IsAuthenticated,)  
 
     @swagger_auto_schema(
-        tags=["Area"],)
+        tags=["area"],)
     def get(self, request):
         """
         A view for get all area (polygon).
@@ -48,7 +48,7 @@ class AreaView(APIView, LimitOffsetPagination):
         return self.get_paginated_response(serializer.data)
 
     @swagger_auto_schema(
-        tags=["Area"],request_body=AreaSerializer)
+        request_body=AreaSerializer)
     def post(self, request):
         """
         A view for create area (polygon).
@@ -81,7 +81,7 @@ class AreaViewDetail(APIView):
     permission_classes = (IsAuthenticated,)  
     
     @swagger_auto_schema(
-        tags=["Area"],request_body=AreaPatchSerializer)
+        request_body=AreaPatchSerializer)
     def patch(self, request, id=None):
         """
         A view for update one area (polygon).
@@ -111,7 +111,7 @@ class AreaViewDetail(APIView):
         return Response(AreaPatchSerializer(area).data, status=status.HTTP_200_OK)
 
     @swagger_auto_schema(
-        tags=["Area"],)
+        tags=["area"],)
     def delete(self, request, id=None):
         """
         A view for delete one area (polygon).
@@ -134,7 +134,8 @@ class AreaViewDetail(APIView):
 class AreaFilterView(APIView):
 
     permission_classes = (IsAuthenticated,)  
-
+    
+    @api_view(['GET'])
     def filter_by_provider(self):
         """
         A view for filter area (polygon) by provider.
