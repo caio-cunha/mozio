@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 from pathlib import Path
 import environ
 from decouple import config
+import django_heroku
 
 env = environ.Env()
 environ.Env.read_env()
@@ -162,3 +163,5 @@ SWAGGER_SETTINGS = {
    'REFETCH_SCHEMA_WITH_AUTH': True,
    'SUPPORTED_SUBMIT_METHODS': ["get", "post", "put", "delete", "patch"],
 }
+
+django_heroku.settings(locals())
