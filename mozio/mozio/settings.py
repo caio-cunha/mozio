@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'rest_framework.authtoken',
+    'drf_yasg',
     'provider',
     'area'
 ]
@@ -133,4 +134,19 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework.authentication.TokenAuthentication',
     ]
+}
+
+# ----------------------------------------------------------------------
+# Swagger settings for set bearer token
+SWAGGER_SETTINGS = {
+    'USE_SESSION_AUTH': True,
+    'SECURITY_DEFINITIONS': {
+      'Bearer': {
+            'type': 'apiKey',
+            'name': 'Authorization',
+            'in': 'header'
+      }
+    },
+   'REFETCH_SCHEMA_WITH_AUTH': True,
+   'SUPPORTED_SUBMIT_METHODS': ["get", "post", "put", "delete", "patch"],
 }
