@@ -35,3 +35,9 @@ class QueryParamsWrong(APIException):
     default_detail = {
         'code': 1422, 'msg': 'server - Choose one number for lat(latitude) and long(longitude) !'}
     default_code = 6001
+
+class QueryParamsProviderIdWrong(APIException):
+    status_code = 422
+    default_detail = {
+        'code': 1422, 'msg': 'server - The params in urls is wrong!'}
+    default_code = 6001

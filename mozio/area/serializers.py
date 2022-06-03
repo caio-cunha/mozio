@@ -5,7 +5,7 @@ from provider.serializers import ProviderSerializer
 
 class AreaSerializer(serializers.ModelSerializer):
 
-    provider = serializers.PrimaryKeyRelatedField(queryset=Provider.objects.all(), write_only=True, required=True)
+    provider = serializers.PrimaryKeyRelatedField(queryset=Provider.objects.all(), write_only=True, required=False)
 
     class Meta:
         model = Area
@@ -19,11 +19,3 @@ class AreaPatchSerializer(serializers.ModelSerializer):
     class Meta:
         model = Area
         fields = ('id', 'name', 'price', 'provider', 'geojson')
-
-class AreaPolygonSerializer(serializers.ModelSerializer):
-
-    provider = ProviderSerializer()
-
-    class Meta:
-        model = Area
-        fields = ('name', 'price', 'provider','geojson')

@@ -1,5 +1,6 @@
 from rest_framework.views import APIView
 from rest_framework.pagination import LimitOffsetPagination
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework import status
 from area.services import AreaService
@@ -8,6 +9,8 @@ from area.serializers import AreaPatchSerializer
 from rest_framework.decorators import api_view
 
 class AreaView(APIView, LimitOffsetPagination):
+
+    permission_classes = (IsAuthenticated,)  
 
     def get(self, request):
         """
@@ -43,6 +46,8 @@ class AreaView(APIView, LimitOffsetPagination):
         return Response(area, status=status.HTTP_201_CREATED)
 
 class AreaViewDetail(APIView):
+
+    permission_classes = (IsAuthenticated,)  
     
     def patch(self, request, id=None):
         """
@@ -79,6 +84,8 @@ class AreaViewDetail(APIView):
 
 class AreaFilterView(APIView):
 
+    permission_classes = (IsAuthenticated,)  
+
     @api_view(['GET'])
     def filter_by_provider(self):
         """
@@ -90,10 +97,10 @@ class AreaFilterView(APIView):
         Returns:
             response - Areas filtered.
         """
-        provider_id = self.query_params.get('provider_id')
+        provider_id = self.query_params.get('provider_id', None)
         area_service = AreaService()
         areas = area_service.filter_by_provider(provider_id)
-        return Response(AreaSerializer(areas).data)
+        return Response(AreaSerializer(areas,many=True).data)
 
     @api_view(['GET'])
     def filter_by_cordinate(self):
